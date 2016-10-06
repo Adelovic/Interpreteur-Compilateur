@@ -1,0 +1,7 @@
+procedure principale()
+  i = 12+3;
+  j = 0;
+  tantque (j<14)
+    j = j + 1;
+  fintantque
+finproc

@@ -1,0 +1,6 @@
+procedure principale()
+  i = 12+3;
+  j = 0;
+  ecrire("Adel a ", i, " ans");
+finproc
+
