@@ -163,11 +163,33 @@ Noeud* Interpreteur::instSi()
   // <instSi> ::= si ( <expression> ) <seqInst> finsi
   testerEtAvancer("si");
   testerEtAvancer("(");
-  Noeud* condition = expression(); // On mémorise la condition
+  
+  vector<Noeud*> conditions;
+  vector<Noeud*> sequences;
+  conditions.push_back(expression()); // On mémorise la condition
   testerEtAvancer(")");
-  Noeud* sequence = seqInst();     // On mémorise la séquence d'instruction
+  sequences.push_back(seqInst());     // On mémorise la séquence d'instruction
+  
+  //while (m_lecteur.getSymbole() == "<CHAINE>" && m_lecteur.getSymbole().getChaine() == "sinonsi")
+  while (m_lecteur.getSymbole().getChaine() == "sinonsi")
+  {
+      m_lecteur.avancer();
+      testerEtAvancer("(");
+      conditions.push_back(expression());
+      testerEtAvancer(")");
+      sequences.push_back(seqInst());
+  }
+  
+  Noeud* seqElse;
+  if (m_lecteur.getSymbole().getChaine() == "sinon")
+  {
+      m_lecteur.avancer();
+      seqElse = seqInst();
+  }
+  
   testerEtAvancer("finsi");
-  return new NoeudInstSi(condition, sequence); // Et on renvoie un noeud Instruction Si
+  
+  return new NoeudInstSi(conditions, sequences, seqElse); // Et on renvoie un noeud Instruction Si
 }
 
 Noeud* Interpreteur::instTantQue()
