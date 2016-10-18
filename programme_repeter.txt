@@ -4,4 +4,8 @@ procedure principale()
   repeter
     j = j + 1;
   jusqua (j<14)
+
+  #repeter
+  #  j = j + 1;
+  #jusqua )
 finproc

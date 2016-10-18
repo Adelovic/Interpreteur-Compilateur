@@ -22,6 +22,21 @@ void NoeudSeqInst::ajoute(Noeud* instruction) {
   if (instruction!=nullptr) m_instructions.push_back(instruction);
 }
 
+void NoeudSeqInst::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    for (unsigned int i = 0; i < m_instructions.size(); i++)
+    {
+        auto& type = typeid(*m_instructions[i]);
+        
+        m_instructions[i]->traduitEnJava(cout, indentation); // on exécute chaque instruction de la séquence    
+        if (type != typeid(NoeudInstPour) && type != typeid(NoeudInstSi) && type != typeid(NoeudInstTantQue))
+        {
+            cout << ";";
+        }
+        cout << "\n";
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NoeudAffectation
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +49,13 @@ int NoeudAffectation::executer() {
   int valeur = m_expression->executer(); // On exécute (évalue) l'expression
   ((SymboleValue*) m_variable)->setValeur(valeur); // On affecte la variable
   return 0; // La valeur renvoyée ne représente rien !
+}
+
+void NoeudAffectation::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    m_variable->traduitEnJava(cout, indentation);
+    cout << " = ";
+    m_expression->traduitEnJava(cout, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +90,15 @@ int NoeudOperateurBinaire::executer() {
   return valeur; // On retourne la valeur calculée
 }
 
+void NoeudOperateurBinaire::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    m_operandeGauche->traduitEnJava(cout, 0);
+    cout << " " << m_operateur.getChaine() << " ";
+    m_operandeDroit->traduitEnJava(cout, 0);
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // NoeudInstSi
 ////////////////////////////////////////////////////////////////////////////////
@@ -96,6 +127,33 @@ int NoeudInstSi::executer()
     return 0; // La valeur renvoyée ne représente rien !
 }
 
+void NoeudInstSi::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    for (int i = 0; i < m_conditions.size(); i++)
+    {
+        if (i == 0)
+        {
+            cout << setw(indentation*4) << "" << "if(";
+        }
+        else
+        {
+            cout << setw(indentation*4) << "" << "else if(";
+        }
+        m_conditions[i]->traduitEnJava(cout, indentation);
+        cout << ")" << "\n";
+        cout << setw(indentation*4) << "" << "{\n";
+        m_sequences[i]->traduitEnJava(cout, indentation+1);
+        cout << setw(indentation*4) << "" << "}\n";
+    }
+    
+    // FAIRE LE ELSE
+    cout << setw(indentation*4) << "" << "else\n";
+    cout << setw(indentation*4) << "" << "{\n";
+    m_seqElse->traduitEnJava(cout, indentation+1);
+    cout << setw(indentation*4) << "" << "}";
+    
+}
+
 
 NoeudInstTantQue::NoeudInstTantQue(Noeud* condition, Noeud* sequence)
 : m_condition(condition), m_sequence(sequence) {
@@ -104,6 +162,16 @@ NoeudInstTantQue::NoeudInstTantQue(Noeud* condition, Noeud* sequence)
 int NoeudInstTantQue::executer() {
   while (m_condition->executer()) m_sequence->executer();
   return 0; // La valeur renvoyée ne représente rien !
+}
+
+void NoeudInstTantQue::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    cout << setw(indentation*4) << "" << "while" << "(";
+    m_condition->traduitEnJava(cout, indentation);
+    cout << ")" << "\n";
+    cout << setw(indentation*4) << "" << "{\n";
+    m_sequence->traduitEnJava(cout, indentation+1);
+    cout << setw(indentation*4) << "" << "}";
 }
 
 NoeudInstRepeter::NoeudInstRepeter(Noeud* condition, Noeud* sequence)
@@ -118,6 +186,16 @@ int NoeudInstRepeter::executer()
     }
     while (m_condition->executer());
   return 0; // La valeur renvoyée ne représente rien !
+}
+
+void NoeudInstRepeter::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    cout << setw(indentation*4) << "" << "do\n";
+    cout << setw(indentation*4) << "" << "{\n";
+    m_sequence->traduitEnJava(cout, indentation+1);
+    cout << setw(indentation*4) << "" << "}" << " while" << "(";
+    m_condition->traduitEnJava(cout, indentation);
+    cout << ")";
 }
 
 NoeudInstPour::NoeudInstPour(Noeud* condition, Noeud* sequence, Noeud* affectation, Noeud* affectation2)
@@ -142,6 +220,30 @@ int NoeudInstPour::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
+void NoeudInstPour::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    cout << setw(indentation*4) << "" << "for(";
+    // Test de l'initialisation
+    if (m_affectation != nullptr)
+    {
+        m_affectation->traduitEnJava(cout, 0);
+    }
+    cout << ";";
+    
+    m_condition->traduitEnJava(cout, 0);
+    cout << ";";
+    
+    if (m_affectation2 != nullptr)
+    {
+        m_affectation2->traduitEnJava(cout, 0);
+    }
+    
+    cout << ")\n";
+    cout << setw(indentation*4) << "" << "{\n";
+    m_sequence->traduitEnJava(cout, indentation+1);
+    cout << setw(indentation*4) << "" << "}";
+}
+
 NoeudInstEcrire::NoeudInstEcrire(vector<Noeud*> & expressions): m_expressions(expressions) {}
 
 int NoeudInstEcrire::executer() 
@@ -161,6 +263,23 @@ int NoeudInstEcrire::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
+void NoeudInstEcrire::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    cout << setw(indentation*4) << "" << "System.out.println(";
+    
+    
+    for (int i = 0; i < m_expressions.size(); i++)
+    {
+        m_expressions[i]->traduitEnJava(cout, 0);
+        if (i != m_expressions.size()-1)
+        {
+            cout << " + ";
+        }
+    }
+    
+    cout << ")";
+}
+
 NoeudInstLire::NoeudInstLire(vector<Noeud*> & expressions): m_expressions(expressions) {}
 
 int NoeudInstLire::executer() 
@@ -174,4 +293,17 @@ int NoeudInstLire::executer()
     
     
   return 0; // La valeur renvoyée ne représente rien !
+}
+
+void NoeudInstLire::traduitEnJava(ostream& cout, unsigned int indentation) const
+{
+    for (int i = 0; i < m_expressions.size(); i++)
+    {
+        cout << setw(indentation*4) << "" << ((SymboleValue*)m_expressions[i])->getChaine() << " = " << "new Scanner(System.in).nextInt()";
+        
+        if (i != m_expressions.size()-1)
+        {
+            cout << ";\n";
+        }
+    }
 }

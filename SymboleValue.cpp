@@ -23,3 +23,8 @@ ostream & operator<<(ostream & cout, const SymboleValue & symbole) {
   else cout << "indefinie ";
   return cout;
 }
+
+void SymboleValue::traduitEnJava(ostream &cout, unsigned int indentation) const
+{
+    cout << setw(indentation*4) << "" << this->getChaine();
+}

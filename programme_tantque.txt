@@ -1,7 +1,16 @@
 procedure principale()
   i = 12+3;
   j = 0;
-  tantque (j<14)
+
+  tantque (j<1)
     j = j + 1;
   fintantque
+
+  #tantque (j<28)
+  #  j = j +;
+  #fintantque
+
+  #tantque (j<28
+  #  j = j + 1;
+  #fintantque
 finproc

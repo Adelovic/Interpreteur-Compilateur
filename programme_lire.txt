@@ -1,8 +1,9 @@
 procedure principale()
-  i = 12+3;
+  i = 0;
   j = 0;
   ecrire("Age d'Adel : ");
+  lire(i);
   lire(i, j);
   ecrire("Age d'Anthony : ");
-  lire(j, i);
+  lire(j);
 finproc

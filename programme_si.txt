@@ -4,6 +4,17 @@ procedure principale()
   i = 17;
   si (i<0)
     j=1;
+  #sinonsii (i>20)
+  #  j=2;
+  sinonsi (i>15)
+    j=3;
+  sinon
+    j=4;
+  finsi
+  ecrire("test");
+
+  si (i<0)
+    j=1;
   sinonsi (i>20)
     j=2;
   sinonsi (i>15)
@@ -11,5 +22,6 @@ procedure principale()
   sinon
     j=4;
   finsi
+
 finproc
 # Commentaire Final
