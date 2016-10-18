@@ -19,7 +19,7 @@ public:
 
     inline const TableSymboles & getTable () const  { return m_table;    } // accesseur	
     inline Noeud* getArbre () const { return m_arbre; }                    // accesseur
-    void traduitEnJava(ostream& cout, unsigned int indentation) const;
+    void traduitEnCpp(ostream& cout, unsigned int indentation) const;
         
         
     int getNombreErreur() const;
@@ -36,13 +36,13 @@ private:
     Noeud*  inst();	   //        <inst> ::= <affectation> ; | <instSi>
     Noeud*  affectation(); // <affectation> ::= <variable> = <expression> 
     
-    Noeud*  expression();  //  <expression> ::= <facteur> { <opBinaire> <facteur> } ||  <expression> ::= <terme> {+ <terme> |-<terme> }
+    Noeud*  expression();  //  <expression> ::= <expression> ::= <terme> {+ <terme> |-<terme> }
     Noeud*  terme();       //       <terme> ::=  <facteur> { * <facteur> | /<facteur> } 
-    Noeud*  facteur();     //     <facteur> ::= <entier>  |  <variable>  |  - <facteur>  | non <facteur> | ( <expression> )
-                           //   <opBinaire> ::= + | - | *  | / | < | > | <= | >= | == | != | et | ou
-    Noeud*  expBool();     //     <expBool> ::= <relationET> {ou <relationEt> }
-    Noeud*  relationEt();   //  <relationEt>::= <relation> {et <relation> }
-    Noeud*  relation();     //    <relation>::= <expression>{ <opRel> <expression> }
+    Noeud*  facteur();     
+    
+    Noeud* expBool();
+    Noeud* relationEt();
+    Noeud* relation();
     
     Noeud*  instSi();      //      <instSi> ::= si ( <expression> ) <seqInst> finsi
     Noeud*  instTantQue(); // <instTantQue> ::= tantque ( <expression> ) <seqInst> tantque
@@ -50,6 +50,8 @@ private:
     Noeud*  instPour(); //    <instPour>    ::= pour ( [ <affectation> ] ; <expression> ;[ <affectation> ]) <seqInst> finpour
     Noeud*  instEcrire(); //  <instEcrire>  ::= ecrire ( <expression> | <chaine> {, <expression> | <chaine> })
     Noeud*  instLire(); //    <instLire>    ::= lire( <variable> {, <variable> })
+    Noeud*  instSelon(); // <instSelon>     ::= selon(<variable>) <case> { <case> } {defaut: <seqInst>}
+                            // <case>        ::= cas <entier>: <seqInst>
     
     // outils pour simplifier l'analyse syntaxique
     void tester (const string & symboleAttendu) const throw (SyntaxeException);   // Si symbole courant != symboleAttendu, on lève une exception

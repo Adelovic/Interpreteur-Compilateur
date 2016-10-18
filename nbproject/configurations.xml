@@ -41,6 +41,7 @@
     <itemPath>motsCles.txt</itemPath>
     <itemPath>programme_ecrire.txt</itemPath>
     <itemPath>programme_lire.txt</itemPath>
+    <itemPath>programme_operations.txt</itemPath>
     <itemPath>programme_pour.txt</itemPath>
     <itemPath>programme_repeter.txt</itemPath>
     <itemPath>programme_si.txt</itemPath>
@@ -95,6 +96,8 @@
       <item path="programme_ecrire.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="programme_lire.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="programme_operations.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="programme_pour.txt" ex="false" tool="3" flavor2="0">
       </item>
@@ -158,6 +161,8 @@
       <item path="programme_ecrire.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="programme_lire.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="programme_operations.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="programme_pour.txt" ex="false" tool="3" flavor2="0">
       </item>

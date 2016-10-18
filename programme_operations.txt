@@ -1,0 +1,9 @@
+procedure principale()
+    i = 5 / 2 + 10 * 5 + 2;
+    j = non i;
+    b = 0;
+    t = (b et j);
+    u = (t ou b);
+    v = (t ou j);
+    
+finproc

@@ -22,13 +22,13 @@ void NoeudSeqInst::ajoute(Noeud* instruction) {
   if (instruction!=nullptr) m_instructions.push_back(instruction);
 }
 
-void NoeudSeqInst::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudSeqInst::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
     for (unsigned int i = 0; i < m_instructions.size(); i++)
     {
         auto& type = typeid(*m_instructions[i]);
         
-        m_instructions[i]->traduitEnJava(cout, indentation); // on exécute chaque instruction de la séquence    
+        m_instructions[i]->traduitEnCpp(cout, indentation); // on exécute chaque instruction de la séquence    
         if (type != typeid(NoeudInstPour) && type != typeid(NoeudInstSi) && type != typeid(NoeudInstTantQue))
         {
             cout << ";";
@@ -51,11 +51,11 @@ int NoeudAffectation::executer() {
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudAffectation::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudAffectation::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
-    m_variable->traduitEnJava(cout, indentation);
+    m_variable->traduitEnCpp(cout, indentation);
     cout << " = ";
-    m_expression->traduitEnJava(cout, 0);
+    m_expression->traduitEnCpp(cout, 0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,11 +90,28 @@ int NoeudOperateurBinaire::executer() {
   return valeur; // On retourne la valeur calculée
 }
 
-void NoeudOperateurBinaire::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudOperateurBinaire::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
-    m_operandeGauche->traduitEnJava(cout, 0);
-    cout << " " << m_operateur.getChaine() << " ";
-    m_operandeDroit->traduitEnJava(cout, 0);
+    string operateurJava;
+    if (this->m_operateur == "et") operateurJava = "&&";
+    else if (this->m_operateur == "ou") operateurJava = "||";
+    else if (this->m_operateur == "non") operateurJava = "!";
+    else operateurJava = this->m_operateur.getChaine();
+    
+    // i == !i && !j;
+    if (m_operateur.getChaine() == "non")
+    {
+        cout << operateurJava << " ";
+        m_operandeGauche->traduitEnCpp(cout, 0);
+    }
+    else
+    {
+        m_operandeGauche->traduitEnCpp(cout, 0);
+        cout << " " << operateurJava << " ";
+        m_operandeDroit->traduitEnCpp(cout, 0);
+        
+        int c = !54;
+    }
 }
 
 
@@ -127,7 +144,7 @@ int NoeudInstSi::executer()
     return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstSi::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstSi::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
     for (int i = 0; i < m_conditions.size(); i++)
     {
@@ -139,17 +156,17 @@ void NoeudInstSi::traduitEnJava(ostream& cout, unsigned int indentation) const
         {
             cout << setw(indentation*4) << "" << "else if(";
         }
-        m_conditions[i]->traduitEnJava(cout, indentation);
+        m_conditions[i]->traduitEnCpp(cout, indentation);
         cout << ")" << "\n";
         cout << setw(indentation*4) << "" << "{\n";
-        m_sequences[i]->traduitEnJava(cout, indentation+1);
+        m_sequences[i]->traduitEnCpp(cout, indentation+1);
         cout << setw(indentation*4) << "" << "}\n";
     }
     
     // FAIRE LE ELSE
     cout << setw(indentation*4) << "" << "else\n";
     cout << setw(indentation*4) << "" << "{\n";
-    m_seqElse->traduitEnJava(cout, indentation+1);
+    m_seqElse->traduitEnCpp(cout, indentation+1);
     cout << setw(indentation*4) << "" << "}";
     
 }
@@ -164,13 +181,13 @@ int NoeudInstTantQue::executer() {
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstTantQue::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstTantQue::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
     cout << setw(indentation*4) << "" << "while" << "(";
-    m_condition->traduitEnJava(cout, indentation);
+    m_condition->traduitEnCpp(cout, indentation);
     cout << ")" << "\n";
     cout << setw(indentation*4) << "" << "{\n";
-    m_sequence->traduitEnJava(cout, indentation+1);
+    m_sequence->traduitEnCpp(cout, indentation+1);
     cout << setw(indentation*4) << "" << "}";
 }
 
@@ -188,13 +205,13 @@ int NoeudInstRepeter::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstRepeter::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstRepeter::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
     cout << setw(indentation*4) << "" << "do\n";
     cout << setw(indentation*4) << "" << "{\n";
-    m_sequence->traduitEnJava(cout, indentation+1);
+    m_sequence->traduitEnCpp(cout, indentation+1);
     cout << setw(indentation*4) << "" << "}" << " while" << "(";
-    m_condition->traduitEnJava(cout, indentation);
+    m_condition->traduitEnCpp(cout, indentation);
     cout << ")";
 }
 
@@ -220,27 +237,27 @@ int NoeudInstPour::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstPour::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstPour::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
     cout << setw(indentation*4) << "" << "for(";
     // Test de l'initialisation
     if (m_affectation != nullptr)
     {
-        m_affectation->traduitEnJava(cout, 0);
+        m_affectation->traduitEnCpp(cout, 0);
     }
     cout << ";";
     
-    m_condition->traduitEnJava(cout, 0);
+    m_condition->traduitEnCpp(cout, 0);
     cout << ";";
     
     if (m_affectation2 != nullptr)
     {
-        m_affectation2->traduitEnJava(cout, 0);
+        m_affectation2->traduitEnCpp(cout, 0);
     }
     
     cout << ")\n";
     cout << setw(indentation*4) << "" << "{\n";
-    m_sequence->traduitEnJava(cout, indentation+1);
+    m_sequence->traduitEnCpp(cout, indentation+1);
     cout << setw(indentation*4) << "" << "}";
 }
 
@@ -263,21 +280,16 @@ int NoeudInstEcrire::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstEcrire::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstEcrire::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
-    cout << setw(indentation*4) << "" << "System.out.println(";
+    cout << setw(indentation*4) << "" << "cout";
     
     
     for (int i = 0; i < m_expressions.size(); i++)
     {
-        m_expressions[i]->traduitEnJava(cout, 0);
-        if (i != m_expressions.size()-1)
-        {
-            cout << " + ";
-        }
+        cout << " << ";
+        m_expressions[i]->traduitEnCpp(cout, 0);
     }
-    
-    cout << ")";
 }
 
 NoeudInstLire::NoeudInstLire(vector<Noeud*> & expressions): m_expressions(expressions) {}
@@ -295,15 +307,11 @@ int NoeudInstLire::executer()
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstLire::traduitEnJava(ostream& cout, unsigned int indentation) const
+void NoeudInstLire::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
+    cout << setw(indentation*4) << "" << "cin";
     for (int i = 0; i < m_expressions.size(); i++)
     {
-        cout << setw(indentation*4) << "" << ((SymboleValue*)m_expressions[i])->getChaine() << " = " << "new Scanner(System.in).nextInt()";
-        
-        if (i != m_expressions.size()-1)
-        {
-            cout << ";\n";
-        }
+        cout << " >> " << ((SymboleValue*)m_expressions[i])->getChaine() ;
     }
 }

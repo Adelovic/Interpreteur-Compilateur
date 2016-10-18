@@ -24,7 +24,7 @@ ostream & operator<<(ostream & cout, const SymboleValue & symbole) {
   return cout;
 }
 
-void SymboleValue::traduitEnJava(ostream &cout, unsigned int indentation) const
+void SymboleValue::traduitEnCpp(ostream &cout, unsigned int indentation) const
 {
     cout << setw(indentation*4) << "" << this->getChaine();
 }
