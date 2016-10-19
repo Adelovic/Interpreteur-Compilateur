@@ -181,7 +181,7 @@ int NoeudInstTantQue::executer() {
   return 0; // La valeur renvoyée ne représente rien !
 }
 
-void NoeudInstTantQue::traduitEnCpp(ostream& cout, unsigned int indentation) const
+void NoeudInstTantQue::traduitEnCpp(ostream& cout, unsigned int indentation)const
 {
     cout << setw(indentation*4) << "" << "while" << "(";
     m_condition->traduitEnCpp(cout, indentation);

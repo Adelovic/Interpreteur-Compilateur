@@ -5,7 +5,7 @@ procedure principale()
     #    j = j + 1;
     #finpour
 
-    pour(i = 0; i < 10; i = i + 1)
+    pour(i = 10; i > 0; i = i - 1)
         j = j + 1;
     finpour
 finproc
