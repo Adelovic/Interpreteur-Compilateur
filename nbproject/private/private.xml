@@ -4,4 +4,29 @@
         <activeConfTypeElem>1</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/main.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_lire.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Symbole.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_ecrire.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_operations.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Interpreteur.h</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/SymboleValue.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/TableSymboles.h</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_pour.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/TableSymboles.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Lecteur.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_si.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Exceptions.h</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/motsCles.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/programme_repeter.txt</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/SymboleValue.h</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Interpreteur.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/ArbreAbstrait.cpp</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/Symbole.h</file>
+            <file>file:/users/info/etu-s3/raffya/NetBeansProjects/M3105-TP05/ArbreAbstrait.h</file>
+        </group>
+    </open-files>
 </project-private>

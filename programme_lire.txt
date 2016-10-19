@@ -2,7 +2,6 @@ procedure principale()
   i = 0;
   j = 0;
   ecrire("Age d'Adel : ", "Test");
-  lire(i);
   lire(i, j);
   ecrire("Age d'Anthony : ");
   lire(j);

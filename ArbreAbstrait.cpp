@@ -110,7 +110,7 @@ void NoeudOperateurBinaire::traduitEnCpp(ostream& cout, unsigned int indentation
         cout << " " << operateurJava << " ";
         m_operandeDroit->traduitEnCpp(cout, 0);
         
-        int c = !54;
+        
     }
 }
 
@@ -314,4 +314,26 @@ void NoeudInstLire::traduitEnCpp(ostream& cout, unsigned int indentation) const
     {
         cout << " >> " << ((SymboleValue*)m_expressions[i])->getChaine() ;
     }
+}
+
+NoeudInstIncDec::NoeudInstIncDec(Noeud* variable, Symbole operateur, bool postIncrement): m_variable(variable), m_operateur(operateur), m_postIncrement(postIncrement) {}
+
+int NoeudInstIncDec::executer() 
+{
+  int valeur = ((SymboleValue*) m_variable)->executer();
+  int newValeur = valeur + (m_operateur == "++" ? 1 : -1);
+  ((SymboleValue*)m_variable)->setValeur(newValeur);
+  if (m_postIncrement)
+  { 
+      return valeur;
+  }
+  else
+  {
+      return newValeur;
+  }
+}
+
+void NoeudInstIncDec::traduitEnCpp(ostream& cout, unsigned int indentation) const
+{
+  
 }

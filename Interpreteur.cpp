@@ -101,6 +101,8 @@ Noeud* Interpreteur::seqInst()
     sequence->ajoute(inst());
   } 
   while (m_lecteur.getSymbole() == "<VARIABLE>" || 
+          m_lecteur.getSymbole() == "--" || 
+          m_lecteur.getSymbole() == "++" || 
           m_lecteur.getSymbole() == "si" || 
           m_lecteur.getSymbole() == "tantque" || 
           m_lecteur.getSymbole() == "repeter" || 
@@ -115,7 +117,7 @@ Noeud* Interpreteur::seqInst()
 Noeud* Interpreteur::inst() 
 {
   // <inst> ::= <affectation>  ; | <instSi>
-  if (m_lecteur.getSymbole() == "<VARIABLE>") 
+  if (m_lecteur.getSymbole() == "<VARIABLE>" || m_lecteur.getSymbole() == "--" || m_lecteur.getSymbole() == "++") 
   {
     Noeud *affect = affectation();
     testerEtAvancer(";");
@@ -139,13 +141,51 @@ Noeud* Interpreteur::inst()
 
 Noeud* Interpreteur::affectation() 
 {
-  // <affectation> ::= <variable> = <expression> 
-  tester("<VARIABLE>");
-  Noeud* var = m_table.chercheAjoute(m_lecteur.getSymbole()); // La variable est ajoutée à la table eton la mémorise
-  m_lecteur.avancer();
-  testerEtAvancer("=");
-  Noeud* exp = expression();             // On mémorise l'expression trouvée
-  return new NoeudAffectation(var, exp); // On renvoie un noeud affectation
+    // <affectation> ::= <variable> = <expression> 
+    
+    Noeud* exp;
+    if (m_lecteur.getSymbole() == "<VARIABLE>")
+    {
+        Noeud* var = m_table.chercheAjoute(m_lecteur.getSymbole()); // La variable est ajoutée à la table eton la mémorise
+        m_lecteur.avancer();
+        
+        if (m_lecteur.getSymbole() == "=")
+        {
+            m_lecteur.avancer();
+            exp = expression();             // On mémorise l'expression trouvée
+            exp = new NoeudAffectation(var, exp);
+        }
+        else if (m_lecteur.getSymbole() == "++" || m_lecteur.getSymbole() == "--")
+        {
+            exp = new NoeudInstIncDec(var, m_lecteur.getSymbole(), true);
+            m_lecteur.avancer();
+        }
+        else
+        {
+            erreur("Operateur d'affectation inconnu");
+        }
+    }
+    else if (m_lecteur.getSymbole() == "--" || m_lecteur.getSymbole() == "++")
+    {
+        Symbole operateur = m_lecteur.getSymbole();
+        m_lecteur.avancer();
+        if (m_lecteur.getSymbole() == "<VARIABLE>")
+        {
+            Noeud* var = m_table.chercheAjoute(m_lecteur.getSymbole()); // La variable est ajoutée à la table eton la mémorise
+            exp = new NoeudInstIncDec(var, operateur, false);
+            m_lecteur.avancer();
+        }
+        else
+        {
+            erreur("Erreur de variable en pre/post incrementation/decrementation");
+        }
+    }
+    else
+    {
+        erreur("Operateur d'affectation inconnu");
+    }
+  
+    return exp;
 }
 
 Noeud* Interpreteur::expression() 
@@ -187,6 +227,11 @@ Noeud* Interpreteur::facteur()
   {
     fact = m_table.chercheAjoute(m_lecteur.getSymbole()); // on ajoute la variable ou l'entier à la table
     m_lecteur.avancer();
+    if (m_lecteur.getSymbole() == "++" || m_lecteur.getSymbole() == "--")
+    {
+        fact = new NoeudInstIncDec(fact, m_lecteur.getSymbole(), true);
+        m_lecteur.avancer();
+    }
   } else if (m_lecteur.getSymbole() == "-") 
   { // - <facteur>
     m_lecteur.avancer();
@@ -205,6 +250,21 @@ Noeud* Interpreteur::facteur()
     fact = expBool();
     testerEtAvancer(")");
   } 
+  else if (m_lecteur.getSymbole() == "--" || m_lecteur.getSymbole() == "++")
+  {
+      Symbole operateur = m_lecteur.getSymbole();
+      m_lecteur.avancer();
+      if (m_lecteur.getSymbole() == "<VARIABLE>")
+      {
+          fact = m_table.chercheAjoute(m_lecteur.getSymbole()); // on ajoute la variable ou l'entier à la table*
+          fact = new NoeudInstIncDec(fact, operateur, false);
+          m_lecteur.avancer();
+      }
+      else
+      {
+          erreur("Erreur de variable en pre/post incrementation/decrementation");
+      }
+  }
   else
     erreur("Facteur incorrect");
   return fact;

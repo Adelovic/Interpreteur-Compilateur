@@ -179,4 +179,17 @@ class NoeudInstSelon : public Noeud {
     Noeud* m_seqInstDefault;
 };
 
+class NoeudInstIncDec : public Noeud {
+
+  public:
+     NoeudInstIncDec(Noeud* variable, Symbole operateur, bool postIncrement); // construit une affectation
+    ~NoeudInstIncDec() {} // A cause du destructeur virtuel de la classe Noeud
+    int executer();        // Exécute (évalue) l'expression et affecte sa valeur à la variable
+    void traduitEnCpp(ostream &cout, unsigned int indentation) const;
+
+  private:
+    Noeud* m_variable;
+    Symbole m_operateur;
+    bool m_postIncrement;
+};
 #endif /* ARBREABSTRAIT_H */
