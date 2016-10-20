@@ -8,8 +8,10 @@
       <itemPath>Exceptions.h</itemPath>
       <itemPath>Interpreteur.h</itemPath>
       <itemPath>Lecteur.h</itemPath>
+      <itemPath>Procedure.h</itemPath>
       <itemPath>Symbole.h</itemPath>
       <itemPath>SymboleValue.h</itemPath>
+      <itemPath>TableProcedures.h</itemPath>
       <itemPath>TableSymboles.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -22,6 +24,7 @@
       <itemPath>ArbreAbstrait.cpp</itemPath>
       <itemPath>Interpreteur.cpp</itemPath>
       <itemPath>Lecteur.cpp</itemPath>
+      <itemPath>Procedure.cpp</itemPath>
       <itemPath>Symbole.cpp</itemPath>
       <itemPath>SymboleValue.cpp</itemPath>
       <itemPath>TableSymboles.cpp</itemPath>
@@ -77,6 +80,10 @@
       </item>
       <item path="Lecteur.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Procedure.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Procedure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Symbole.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Symbole.h" ex="false" tool="3" flavor2="0">
@@ -84,6 +91,8 @@
       <item path="SymboleValue.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SymboleValue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TableProcedures.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TableSymboles.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -142,6 +151,10 @@
       </item>
       <item path="Lecteur.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Procedure.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="Procedure.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Symbole.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="Symbole.h" ex="false" tool="3" flavor2="0">
@@ -149,6 +162,8 @@
       <item path="SymboleValue.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="SymboleValue.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="TableProcedures.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TableSymboles.cpp" ex="false" tool="1" flavor2="0">
       </item>

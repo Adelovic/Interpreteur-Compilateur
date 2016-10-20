@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/ArbreAbstrait.o \
 	${OBJECTDIR}/Interpreteur.o \
 	${OBJECTDIR}/Lecteur.o \
+	${OBJECTDIR}/Procedure.o \
 	${OBJECTDIR}/Symbole.o \
 	${OBJECTDIR}/SymboleValue.o \
 	${OBJECTDIR}/TableSymboles.o \
@@ -82,6 +83,11 @@ ${OBJECTDIR}/Lecteur.o: Lecteur.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Lecteur.o Lecteur.cpp
+
+${OBJECTDIR}/Procedure.o: Procedure.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/Procedure.o Procedure.cpp
 
 ${OBJECTDIR}/Symbole.o: Symbole.cpp 
 	${MKDIR} -p ${OBJECTDIR}

@@ -588,4 +588,23 @@ Noeud* Interpreteur::instLire()
         m_lecteur.avancer();
         return nullptr;
     }
+   
+}
+
+    
+Noeud*  Interpreteur::instProcedure()
+{
+    try
+    {
+        testerEtAvancer("procedure");
+        testerEtAvancer("<CHAINE>");
+        testerEtAvancer("(");
+        
+        while ()
+        
+    }
+    catch (SyntaxeException ex)
+    {
+            
+    }
 }
