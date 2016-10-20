@@ -7,14 +7,7 @@ Symbole(s.getChaine()) {
   if (s == "<ENTIER>") {
     m_valeur = atoi(s.getChaine().c_str()); // c_str convertit une string en char*
     m_defini = true;
-    isInt = true;
   } 
-  else if (s == "<CHAINE>")
-  {
-      m_chaine = s.getChaine();
-      m_defini = true;
-      isInt = false;
-  }
   else
   {
     m_defini = false;

@@ -335,5 +335,16 @@ int NoeudInstIncDec::executer()
 
 void NoeudInstIncDec::traduitEnCpp(ostream& cout, unsigned int indentation) const
 {
-  
+    if (this->m_postIncrement)
+    {
+        cout << setw(indentation*4) << "";
+        this->m_variable->traduitEnCpp(cout, 0);
+        cout << this->m_operateur.getChaine();
+    }
+    else
+    {
+        cout << setw(indentation*4) << "";
+        cout << this->m_operateur.getChaine();
+        this->m_variable->traduitEnCpp(cout, 0);
+    }
 }

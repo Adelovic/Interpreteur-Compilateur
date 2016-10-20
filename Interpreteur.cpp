@@ -141,7 +141,7 @@ Noeud* Interpreteur::inst()
 
 Noeud* Interpreteur::affectation() 
 {
-    // <affectation> ::= <variable> = <expression> 
+    // <affectation> ::= <variable> = <expression>
     
     Noeud* exp;
     if (m_lecteur.getSymbole() == "<VARIABLE>")
@@ -582,27 +582,6 @@ Noeud* Interpreteur::instLire()
         cout << "Erreur dans l'instruction lire à la ligne " << m_lecteur.getLigne() << " et colonne " << m_lecteur.getColonne() << endl;
         this->addErreur();
         while (m_lecteur.getSymbole().getChaine() != ";")
-        {
-            m_lecteur.avancer();
-        }
-        m_lecteur.avancer();
-        return nullptr;
-    }
-}
-
-Noeud* Interpreteur::instSelon()
-{
-    // <instSelon>     ::= selon(<variable>) <case> { <case> } {defaut: <seqInst>}
-    // <case>        ::= cas <entier>: <seqInst>
-    try
-    {
-        
-    }
-    catch (SyntaxeException ex)
-    {
-        cout << "Erreur dans l'instruction selon à la ligne " << m_lecteur.getLigne() << " et colonne " << m_lecteur.getColonne() << endl;
-        this->addErreur();
-        while (m_lecteur.getSymbole() != "finselon")
         {
             m_lecteur.avancer();
         }

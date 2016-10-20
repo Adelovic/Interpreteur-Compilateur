@@ -3,7 +3,7 @@ procedure principale()
     i++;
     #i = 5 / 2 + 10 * 5 + 2;
     #--i;
-    #z = --i + 5;
+    z = --i + 5;
     #i++;
     #i = 0;
     #j = non i;
